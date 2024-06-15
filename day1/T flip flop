@@ -1,0 +1,32 @@
+module tff(clk,data,reset,q);
+input clk,data,reset;
+output q;
+reg q;
+always @(posedge clk)
+if(!reset)begin
+q<=1'b0;
+end
+else if(data) begin
+q<=!q;
+end
+endmodule
+
+module tff_tb;
+reg clk,data,reset;
+wire q;
+
+tff TF(.clk(clk),.data(data),.reset(reset),.q(q));
+initial begin
+clk=0;
+data=0;
+reset=1;
+
+#5 reset=1;
+#30 reset=0;
+
+$monitor($time,"\tclk=%b\t,data=%b\t,reset=%b\t,q=%b",clk,data,reset,q);
+#100 $finish;
+end
+always #10 clk=~clk;
+always #25 data=~data;
+endmodule
