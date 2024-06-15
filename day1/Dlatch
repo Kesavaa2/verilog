@@ -1,0 +1,32 @@
+module dlatch(data,en,reset,q);
+input data,en,reset;
+output q;
+reg q;
+always@(data or en or reset)
+if(reset)
+begin
+q<=1'b0;
+end
+else if(en)
+begin
+q<=data;
+end
+endmodule
+
+module dlatch_tb;
+reg data,en,reset;
+wire q;
+
+dlatch_DL(data,en,reset,q);
+initial
+begin
+en=0;
+data=0;
+#5 reset=1;
+#30 reset=0;
+$monitor($time,"\ten=%b\t,reset=%b\t,data=%b\t,q=%b",en,data,reset,q);
+#160 $finish;
+end
+always #20 en=~en;
+always #40data=~data;
+endmodule
