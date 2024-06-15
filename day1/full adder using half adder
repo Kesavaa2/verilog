@@ -1,0 +1,26 @@
+module ha(input  a,b, output s,c);
+assign s=a^b;
+assign c=a&b;
+endmodule
+
+module fauha(input a,b,Cin,output sum,Cout);
+wire s0,c0,c1;
+ ha _HA1(a,b,s0,c0);
+ ha _HA2(s0,Cin,sum,c1);
+assign Cout=c0|c1;
+endmodule
+
+module fauha_tb;
+reg a,b,Cin;
+wire sum,Cout;
+fauha FUH(a,b,Cin,sum,Cout);
+initial 
+begin
+$monitor("$time=%0t:a=%b,b=%b,Cin=%b,sum=%b,Cout=%b",$time, a,b,Cin,sum,Cout);
+a=1;b=0;Cin=0;
+#10;
+a=1;b=0;Cin=1;
+#10;
+$finish;
+end
+endmodule
