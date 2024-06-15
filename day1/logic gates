@@ -1,0 +1,40 @@
+module logic_gates
+(
+input a,b,
+output c,d,e,f,g,h,i
+);
+
+assign c=a&b;
+assign d=a|b;
+assign e=a&~b;
+assign f=a|~b;
+assign g=a^b;
+assign h=a^~b;
+assign i=~a;
+
+endmodule
+
+module logic_gates_tb;
+reg a,b;
+wire c,d,e,f,g,h,i;
+
+logic_gates LG(.a(a),.b(b),.c(c),.d(d),.e(e),.f(f),.g(g),.h(h),.i(i));
+
+initial
+begin
+ 
+a=0;b=0;
+#20;
+
+a=0;b=1;
+#20;
+
+a=1;b=0;
+#20;
+
+a=1;b=1;
+#20;
+
+$finish;
+end
+endmodule
