@@ -1,0 +1,31 @@
+module dff(clk,data,reset,q);
+input clk,data,reset;
+output q;
+reg q;
+always @(posedge clk)
+if(reset)begin
+q<=1'b0;
+end
+else begin
+q<=data;
+end
+endmodule
+
+module dff_tb;
+reg clk,data,reset;
+wire q;
+
+dff DF(.clk(clk),.data(data),.reset(reset),.q(q));
+initial begin
+clk=0;
+data=0;
+reset=1;
+
+#5 reset=1;
+#5 reset=0;
+
+$monitor($time,"\tclk=%b\t,data=%b\t,reset=%b\t,q=%b",clk,data,reset,q);
+end
+always #10 clk=~clk;
+always #10 data=~data;
+endmodule
