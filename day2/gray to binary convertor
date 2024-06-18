@@ -1,0 +1,25 @@
+module graytobi (
+input [3:0] G,
+output [3:0]B
+); 
+
+assign B[0] = G[3] ^ G[2] ^ G[1] ^ G[0];
+assign B[1] = G[3] ^ G[2] ^ G[1];
+assign B[2] = G[3] ^ G[2];
+assign B[3] = G[3];
+endmodule 
+
+ module graytobi_tb;
+ reg [3:0] G;
+ wire [3:0]B;
+ bitogray b2g(G,B);
+ initial 
+begin
+ $monitor(G,B);
+G = 4'b1011; #10;
+G = 4'b0111; #10; 
+G = 4'b0101; #10;
+G = 4'b1100; #10; 
+G = 4'b1111; #10;
+end 
+endmodule
