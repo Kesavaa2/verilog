@@ -1,0 +1,35 @@
+module piso(
+input clk,rst,
+input [3:0]p_in,
+output reg s_out
+);
+reg [3:0]shift_reg;
+
+always@(posedge clk or posedge rst)
+begin
+if (rst) begin
+ shift_reg <= 4'b0000;
+ s_out <= 0;
+end
+else begin
+ shift_reg <= {p_in,shift_reg[3:1]};
+ s_out <= shift_reg[0];
+end
+end
+endmodule
+
+module piso_tb;
+reg clk,rst;
+reg [3:0]p_in;
+wire s_out;
+
+piso PISO(clk,rst,p_in,s_out);
+
+always #5 clk=~clk;
+initial begin
+clk=0;rst=1; p_in=4'b1101;
+#20 rst=0; p_in=4'b1011;#30;
+#150 $finish;
+$monitor("clk=%b,rst=%b,p_in=%b,s_out=%b",$time,clk,rst,p_in,s_out);
+end
+endmodule
