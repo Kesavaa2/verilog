@@ -1,0 +1,38 @@
+module latch (g, d, q);
+        input  g, d;
+        output q;
+	reg    q; 
+	always @(g or d) 
+        begin
+           if (g)
+              q <=d;
+          else q<=1'b0;
+        end
+        endmodule
+
+
+
+module latch_tb;
+  reg g,d;
+  wire q;
+  latch Latch(g,d,q);
+  initial begin
+    g=0;d=1;#10;
+    
+   #5 g=1;d=1;
+    d=0;#10;
+    d=1;#10;
+    g=0;#10;
+    d=0;#10;
+    d=1;#10;
+    d=0;#10;
+    d=1;#10;
+     
+    $monitor("g=%0b,d=%0b,q=%0b", $time,g,d,q);
+    begin
+      $dumpfile("latch_tb.vcd");
+      $dumpvars;
+    end
+ #100; $finish;
+  end
+endmodule
